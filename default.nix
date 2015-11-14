@@ -1,16 +1,26 @@
-{ }:
+{ /*day ? "2015-10-15"*/ }:
 
 with import <nixpkgs> {};
 
 let
-  daysbuild = import ./dailyplays.nix { inherit stdenv; inherit pkgs; day = "2015-10-15"; };
+  day="2015-10-15";
+  daysbuild = callPackage ./dailyplays.nix { inherit day; };
 
 in stdenv.mkDerivation rec {
-  name = "nixtopartists";
+  name = "nixtopartists-${day}";
 
-  #src = ".";
+  src = ./scripts;
+
   buildInputs = [
     daysbuild
+    pkgs.python34
   ];
-  
+
+  buildPhase = "python3 topartists.py ${daysbuild}/dailyplays.ldj";
+
+  installPhase = "
+    mkdir $out
+    cp topartists.ldj $out/
+  ";
+
 }
