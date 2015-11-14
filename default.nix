@@ -1,9 +1,8 @@
-{ /*day ? "2015-10-15"*/ }:
+{ day ? "2015-10-15" }:
 
 with import <nixpkgs> {};
 
 let
-  day="2015-10-15";
   daysbuild = callPackage ./dailyplays.nix { inherit day; };
 
 in stdenv.mkDerivation rec {
