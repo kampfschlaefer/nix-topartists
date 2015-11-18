@@ -6,12 +6,15 @@ import json
 
 counter = collections.Counter()
 
-with open(sys.argv[1], 'r') as handle:
-    for line in handle:
-        if line.strip() == "":
-            continue
-        doc = json.loads(line)
-        counter[doc['artist']] += 1
+for filename in sys.argv[1:]:
+    print("Reading from %s" % filename)
+    with open(filename, 'r') as handle:
+        for line in handle:
+            if line.strip() == "":
+                continue
+            # print("Parsing line %s" % line)
+            doc = json.loads(line)
+            counter[doc['artist']] += 1
 
 with open('topartists.ldj', 'w') as output:
     for name, plays in counter.most_common():
