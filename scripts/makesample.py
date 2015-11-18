@@ -10,6 +10,7 @@ artists = [
     'Aluminica',
 ]
 
+
 def main():
     for i in range(1000000):
         date = datetime.date(2015, 10, random.randint(1, 30))
