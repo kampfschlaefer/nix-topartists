@@ -11,16 +11,9 @@ in stdenv.mkDerivation rec {
     pkgs.python34
   ];
 
-  srcs = [
-    #../lpug-luigi  #/plays.ldj
-    ./scripts
-  ];
-  sourceRoot = "scripts";
+  src = ./scripts;
 
   buildPhase = "
-    #echo \"out=$out\"
-    #pwd
-    #ls -la ..
     python3 dailyplays.py ${rawplays}/plays.ldj ${day}
   ";
 
