@@ -3,11 +3,9 @@
 with import <nixpkgs> {};
 
 let
-  days = builtins.genList (x: (if x < 9 then "0" else "") + builtins.toString (x + 1)) 12;
-  daysbuilds = map (x: import ./topartists.nix { inherit stdenv pkgs; day="2015-10-${x}"; }) days;
-
-  #debugdays = builtins.toJSON days;
-  debugdays = builtins.toJSON daysbuilds;
+  firstweek = callPackage ./topartists_range.nix { range=[1 7]; };
+  lastweek = callPackage ./topartists_range.nix { range=[24 31]; };
+  firsthalf = callPackage ./topartists_range.nix { range=[1 15]; };
 
 in stdenv.mkDerivation rec {
   name = "nixtopartists";
@@ -16,14 +14,18 @@ in stdenv.mkDerivation rec {
 
   buildInputs = [
     pkgs.python34
-  ] ++ daysbuilds;
+    firstweek
+    lastweek
+    firsthalf
+  ];
 
-  #buildPhase = "python3 topartists.py ${daysbuild}/dailyplays.ldj";
-  buildPhase = "echo \"${debugdays}\"";
+  buildPhase = "";
 
-  #installPhase = "
-  #  mkdir $out
-  #  cp topartists.ldj $out/
-  #";
+  installPhase = "
+    mkdir $out
+    cp ${firstweek}/topartists.ldj $out/topartists_firstweek.ldj
+    cp ${lastweek}/topartists.ldj $out/topartists_lastweek.ldj
+    cp ${firsthalf}/topartists.ldj $out/topartists_firsthalf.ldj
+  ";
 
 }
