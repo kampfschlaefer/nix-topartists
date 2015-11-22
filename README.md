@@ -38,3 +38,19 @@ tbd.
 
 ## Try for yourself
 
+Inside this folder run `nix-build`. This will start with generating the data, evaluate all the dependencies and in the end produce a link `result/`:
+```
+$> ls result -la
+lrwxrwxrwx 1 arnold arnold 57 Nov 21 17:30 result -> /nix/store/xgb1wz44wjrm273vka8w3wfxw0c4psai-nixtopartists
+```
+which points to the concrete 'package' produced by these expressions. It contains:
+```
+$> ls result/ -la
+total 316
+dr-xr-xr-x   2 arnold arnold   4096 Jan  1  1970 .
+drwxrwxr-t 534 arnold nixbld 303104 Nov 21 17:30 ..
+-r--r--r--   1 arnold arnold     86 Jan  1  1970 topartists_firsthalf.ldj
+-r--r--r--   1 arnold arnold     84 Jan  1  1970 topartists_firstweek.ldj
+-r--r--r--   1 arnold arnold     84 Jan  1  1970 topartists_lastweek.ldj
+```
+
